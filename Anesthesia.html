@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedMate Doser</title>
+    <link rel="icon" href="Image/Icon.jpeg">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #4CAF50;
+        }
+
+        button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 20px 0 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Anesthesia Dosage</h1>
+        <form id="anesthesia-form">
+            <div>
+                <label for="weight">Weight (in kgs):</label>
+                <input type="number" id="weight" name="weight" placeholder="Enter weight" required>
+            </div>
+            <div>
+                <label for="drug">Choose a Drug:</label>
+                <select id="drug" name="drug" required>
+                    <option value="" disabled selected>Select a drug</option>
+                    <option value="bupivacaine">Bupivacaine</option>
+                    <option value="lidocaine">Lidocaine</option>
+                    <option value="atricaine">Atricaine</option>
+                    <option value="mepivacaine">Mepivacaine</option>
+                </select>
+            </div>
+            <div>
+                <label for="concentration">Choose Concentration:</label>
+                <select id="concentration" name="concentration" required>
+                    <option value="" disabled selected>Select concentration</option>
+                    <option value="0.25">0.25%</option>
+                    <option value="0.5">0.5%</option>
+                    <option value="0.75">0.75%</option>
+                    <option value="1.0">1.0%</option>
+                    <option value="1.5">1.5%</option>
+                    <option value="2.0">2.0%</option>
+                    <option value="3.0">3.0%</option>
+                </select>
+            </div>
+            <button type="submit">Calculate</button>
+        </form>
+        <hr>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('anesthesia-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            calculate();
+        });
+
+        function calculate() {
+            var weight = parseFloat(document.getElementById('weight').value);
+            var drug = document.getElementById('drug').value;
+            var concentration = parseFloat(document.getElementById('concentration').value);
+            var factor = 0;
+
+            if (drug === 'lidocaine') {
+                factor = 7;
+            } else if (drug === 'bupivacaine') {
+                factor = 2;
+            } else if (drug === 'atricaine') {
+                factor = 7;
+            } else if (drug === 'mepivacaine') {
+                factor = 6.6;
+            }
+
+            var dosage = weight * factor;
+            var concentration1 = (concentration / 100) * 1800
+            var cartridge = dosage / concentration1;
+            var resultElement = document.getElementById('result');
+            resultElement.innerHTML = 'Result: ' + dosage.toFixed(1) + ' mg, ' + concentration1.toFixed(1) + ' ml, ' + cartridge.toFixed(1) + ' cartridges';
+        }
+    </script>
+</body>
+
+</html>
